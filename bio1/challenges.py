@@ -41,3 +41,10 @@ def find_clumps_challenge():
     k, L, t = map(int, lines[1].split())
     clumps = find_clumps(lines[0], k, L, t)
     print ' '.join(clumps)
+
+
+def e_coli_clumps_challenge():
+    with open('E-coli.txt', 'r') as f:
+        lines = f.read().splitlines()
+    clumps = find_clumps(lines[0], 9, 500, 3)
+    print len(clumps)
