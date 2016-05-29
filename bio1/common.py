@@ -19,3 +19,20 @@ def count_kmers(nucleotides_string, kmer):
         if nucleotides_string[i:i + kmer_len] == kmer:
             count += 1
     return count
+
+
+# Course name for method
+PatternCount = count_kmers
+
+
+def frequent_words(nucleotides_string, kmer_len):
+    nucleotides_string_len = len(nucleotides_string)
+    result = []
+    for i in range(0, nucleotides_string_len - kmer_len + 1):
+        kmer = nucleotides_string[i:i + kmer_len]
+        result.append(count_kmers(nucleotides_string, kmer))
+    return result
+
+
+# Course name for method
+FrequentWords = frequent_words
