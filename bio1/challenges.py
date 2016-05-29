@@ -26,3 +26,11 @@ def occurencies_challenge():
         lines = f.read().splitlines()
     occurences = find_all_occurencies(lines[0], lines[1])
     print ' '.join(map(str, occurences))
+
+
+def vibrio_occurencies_challenge():
+    with open('Vibrio_cholerae.txt', 'r') as f:
+        lines = f.read().splitlines()
+    occurences = find_all_occurencies('CTTGATCAT', lines[0])
+    print ' '.join(map(str, occurences))
+vibrio_occurencies_challenge()
