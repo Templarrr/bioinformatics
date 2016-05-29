@@ -1,4 +1,4 @@
-from common import get_complementary_string, count_kmers, frequent_words
+from common import get_complementary_string, count_kmers, frequent_words_counts, frequent_words
 
 
 def test_complementary_string():
@@ -19,5 +19,9 @@ def test_count_kmers_big_example():
     assert count_kmers(lines[1], lines[2]) == int(lines[4])
 
 
+def test_frequent_words_counts():
+    assert frequent_words_counts('ACTGACTCCCACCCC', 3) == [2, 1, 1, 1, 2, 1, 1, 3, 1, 1, 1, 3, 3]
+
+
 def test_frequent_words():
-    assert frequent_words('ACTGACTCCCACCCC', 3) == [2, 1, 1, 1, 2, 1, 1, 3, 1, 1, 1, 3, 3]
+    assert frequent_words('ACTGACTCCCACCCC', 3) == {'CCC'}
