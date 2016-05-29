@@ -1,4 +1,4 @@
-from common import count_kmers, frequent_words
+from common import count_kmers, frequent_words, get_complementary_string
 
 
 def kmer_challenge():
@@ -12,3 +12,9 @@ def frequent_words_challenge():
         lines = f.read().splitlines()
     words = frequent_words(lines[0], int(lines[1]))
     print ' '.join(words)
+
+
+def complementary_challenge():
+    with open('dataset_3_2.txt', 'r') as f:
+        lines = f.read().splitlines()
+    print get_complementary_string(lines[0], rna_mode=False, reversed=True)
