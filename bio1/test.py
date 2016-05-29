@@ -1,4 +1,5 @@
-from common import get_complementary_string, count_kmers, frequent_words_counts, frequent_words
+from common import get_complementary_string, \
+    count_kmers, frequent_words_counts, frequent_words, find_all_occurencies
 
 
 def test_complementary_string():
@@ -41,3 +42,14 @@ def test_frequent_words_big_example():
     with open('frequent_words_data.txt', 'r') as f:
         lines = f.read().splitlines()
     assert frequent_words(lines[1], int(lines[2])) == set(lines[4].split())
+
+
+def test_all_occurencies():
+    assert find_all_occurencies('ATAT', 'GATATATGCATATACTT') == [1, 3, 9]
+
+
+def test_all_occurencies_big_example():
+    with open('pattern_matching_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    occurences = find_all_occurencies(lines[1], lines[2])
+    assert ' '.join(map(str, occurences)) == lines[4]

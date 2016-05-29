@@ -48,3 +48,13 @@ def frequent_words(nucleotides_string, kmer_len):
 
 # Course name for method
 FrequentWords = frequent_words
+
+
+def find_all_occurencies(pattern, genome):
+    result = []
+    start_pos = 0
+    while genome.find(pattern, start_pos) != -1:
+        index = genome.find(pattern, start_pos)
+        result.append(index)
+        start_pos = index + 1
+    return result
