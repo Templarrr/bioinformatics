@@ -25,3 +25,10 @@ def test_frequent_words_counts():
 
 def test_frequent_words():
     assert frequent_words('ACTGACTCCCACCCC', 3) == {'CCC'}
+    assert frequent_words('ACGTTGCATGTCGCATGATGCATGAGAGCT', 4) == {'CATG', 'GCAT'}
+
+
+def test_frequent_words_big_example():
+    with open('frequent_words_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    assert frequent_words(lines[1], int(lines[2])) == set(lines[4].split())
