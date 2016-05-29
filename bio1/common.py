@@ -1,3 +1,5 @@
+from collections import Counter
+
 import constants
 
 
@@ -57,4 +59,39 @@ def find_all_occurencies(pattern, genome):
         index = genome.find(pattern, start_pos)
         result.append(index)
         start_pos = index + 1
+    return result
+
+
+def get_t_clumps(counter, t):
+    max_clump_size = max(counter.values())
+    result = set()
+    if max_clump_size < t:
+        return result
+    all_clump_size_to_check = range(t, max_clump_size + 1)
+    clump_sizes_in_counter = set(counter.values())
+    all_clump_size_to_check = [clump_size
+                               for clump_size
+                               in all_clump_size_to_check
+                               if clump_size in clump_sizes_in_counter]
+    for clump in counter:
+        if counter[clump] in all_clump_size_to_check:
+            result.add(clump)
+    return result
+
+
+def find_clumps(genome, k, L, t):
+    window_size = L - k + 1
+    counter = Counter()
+    for i in range(window_size):
+        counter[genome[i:i + k]] += 1
+
+    result = get_t_clumps(counter, t)
+    for i in range(window_size, len(genome) - k + 1):
+        kmer_to_add = genome[i:i + k]
+        kmer_to_remove = genome[i - window_size:i - window_size + k]
+        counter[kmer_to_add] += 1
+        counter[kmer_to_remove] -= 1
+        if counter[kmer_to_add] >= t:
+            result.add(kmer_to_add)
+
     return result

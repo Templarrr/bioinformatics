@@ -1,5 +1,6 @@
 from common import get_complementary_string, \
-    count_kmers, frequent_words_counts, frequent_words, find_all_occurencies
+    count_kmers, frequent_words_counts, frequent_words, \
+    find_all_occurencies, find_clumps
 
 
 def test_complementary_string():
@@ -53,3 +54,19 @@ def test_all_occurencies_big_example():
         lines = f.read().splitlines()
     occurences = find_all_occurencies(lines[1], lines[2])
     assert ' '.join(map(str, occurences)) == lines[4]
+
+
+def test_find_clumps():
+    clumps = find_clumps('CGGACTCGACAGATGTGAAGAACGACAATGTGAAGACTCGACACGACAGAGTGAAGAGAAGAGGAAACATTGTAA', 5, 50, 4)
+    assert clumps == {'CGACA', 'GAAGA'}
+    clumps = find_clumps('ACGACCGATT', 2, 5, 2)
+    assert clumps == {'AC'}
+
+
+def test_find_clumps_big_example():
+    with open('clump_finding_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, L, t = map(int, lines[2].split())
+    clumps = find_clumps(lines[1], k, L, t)
+    expected_clumps = set(lines[4].split())
+    assert clumps == expected_clumps
