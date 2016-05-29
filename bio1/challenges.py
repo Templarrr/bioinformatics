@@ -1,5 +1,5 @@
 from common import count_kmers, frequent_words, \
-    get_complementary_string, find_all_occurencies
+    get_complementary_string, find_all_occurencies, find_clumps
 
 
 def kmer_challenge():
@@ -33,4 +33,11 @@ def vibrio_occurencies_challenge():
         lines = f.read().splitlines()
     occurences = find_all_occurencies('CTTGATCAT', lines[0])
     print ' '.join(map(str, occurences))
-vibrio_occurencies_challenge()
+
+
+def find_clumps_challenge():
+    with open('dataset_4_5.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, L, t = map(int, lines[1].split())
+    clumps = find_clumps(lines[0], k, L, t)
+    print ' '.join(clumps)
