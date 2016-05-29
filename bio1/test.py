@@ -7,6 +7,13 @@ def test_complementary_string():
     assert get_complementary_string(input_string, rna_mode=True) == 'UGCGCU'
     assert get_complementary_string(input_string, rna_mode=True, reversed=True) == 'UCGCGU'
     assert get_complementary_string(input_string, rna_mode=False, reversed=True) == 'TCGCGT'
+    assert get_complementary_string('AAAACCCGGT', rna_mode=False, reversed=True) == 'ACCGGGTTTT'
+
+
+def test_complementary_string_big_example():
+    with open('reverse_complement_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    assert get_complementary_string(lines[1], rna_mode=False, reversed=True) == lines[3]
 
 
 def test_count_kmers():
