@@ -13,7 +13,7 @@ def test_complementary_string():
 
 
 def test_complementary_string_big_example():
-    with open('reverse_complement_data.txt', 'r') as f:
+    with open('../data/tests/reverse_complement_data.txt', 'r') as f:
         lines = f.read().splitlines()
     assert get_complementary_string(lines[1], rna_mode=False, reversed=True) == lines[3]
 
@@ -25,7 +25,7 @@ def test_count_kmers():
 
 
 def test_count_kmers_big_example():
-    with open('PatternCount.txt', 'r') as f:
+    with open('../data/tests/PatternCount.txt', 'r') as f:
         lines = f.read().splitlines()
     assert count_kmers(lines[1], lines[2]) == int(lines[4])
 
@@ -40,7 +40,7 @@ def test_frequent_words():
 
 
 def test_frequent_words_big_example():
-    with open('frequent_words_data.txt', 'r') as f:
+    with open('../data/tests/frequent_words_data.txt', 'r') as f:
         lines = f.read().splitlines()
     assert frequent_words(lines[1], int(lines[2])) == set(lines[4].split())
 
@@ -50,7 +50,7 @@ def test_all_occurencies():
 
 
 def test_all_occurencies_big_example():
-    with open('pattern_matching_data.txt', 'r') as f:
+    with open('../data/tests/pattern_matching_data.txt', 'r') as f:
         lines = f.read().splitlines()
     occurences = find_all_occurencies(lines[1], lines[2])
     assert ' '.join(map(str, occurences)) == lines[4]
