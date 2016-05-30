@@ -1,7 +1,8 @@
 from time import time
 
 from common import count_kmers, frequent_words, \
-    get_complementary_string, find_all_occurencies, find_clumps
+    get_complementary_string, find_all_occurencies, \
+    find_clumps, computing_frequencies
 
 
 def kmer_challenge():
@@ -52,6 +53,13 @@ def e_coli_clumps_challenge():
     print len(clumps)
 
 
+def frequencies_challange():
+    with open('../data/challenges/dataset_2994_5.txt', 'r') as f:
+        lines = f.read().splitlines()
+    frequencies = computing_frequencies(lines[0], int(lines[1]))
+    print ' '.join(map(str, frequencies))
+
+
 def run_all():
     print 'Running all challenges with timing'
     time1 = time()
@@ -62,6 +70,7 @@ def run_all():
     vibrio_occurencies_challenge()
     find_clumps_challenge()
     e_coli_clumps_challenge()
+    frequencies_challange()
     time2 = time()
     print 'Comlete in %f seconds' % (time2 - time1)
 

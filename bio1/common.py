@@ -147,3 +147,16 @@ def number_to_pattern(number, k):
 
 # Course name for method
 NumberToPattern = number_to_pattern
+
+
+def computing_frequencies(nucleotides_string, kmer_len):
+    frequency_array = [0] * 4 ** kmer_len
+    nucleotides_string_len = len(nucleotides_string)
+    for i in range(0, nucleotides_string_len - kmer_len + 1):
+        kmer = nucleotides_string[i:i + kmer_len]
+        frequency_array[pattern_to_number(kmer)] += 1
+    return frequency_array
+
+
+# Course name for method
+ComputingFrequencies = computing_frequencies

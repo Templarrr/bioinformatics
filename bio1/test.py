@@ -1,7 +1,7 @@
 from common import get_complementary_string, \
     count_kmers, frequent_words_counts, frequent_words, \
     find_all_occurencies, find_clumps, faster_frequent_words, \
-    pattern_to_number, number_to_pattern
+    pattern_to_number, number_to_pattern, computing_frequencies
 
 
 def test_complementary_string():
@@ -89,3 +89,15 @@ def test_pattern_to_number():
 def test_number_to_pattern():
     assert number_to_pattern(45, 4) == 'AGTC'
     assert number_to_pattern(5353, 7) == 'CCATGGC'
+
+
+def test_computing_frequencies():
+    frequencies = computing_frequencies('ACGCGGCTCTGAAA', 2)
+    assert ' '.join(map(str, frequencies)) == '2 1 0 0 0 0 2 2 1 2 1 0 0 1 1 0'
+
+
+def test_computing_frequencies_big_example():
+    with open('../data/tests/FrequencyArray.txt', 'r') as f:
+        lines = f.read().splitlines()
+    frequencies = computing_frequencies(lines[1], int(lines[2]))
+    assert ' '.join(map(str, frequencies)) == lines[4]
