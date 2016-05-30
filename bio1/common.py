@@ -116,3 +116,13 @@ def find_clumps(genome, k, L, t):
             result.add(kmer_to_add)
 
     return result
+
+
+def pattern_to_number(pattern):
+    symbols = 'ACGT'
+    pattern_transformed = ''.join([str(symbols.index(symbol)) for symbol in pattern])
+    return int(pattern_transformed, len(symbols))
+
+
+# Course name for method
+PatternToNumber = pattern_to_number

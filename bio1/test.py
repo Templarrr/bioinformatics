@@ -1,6 +1,7 @@
 from common import get_complementary_string, \
     count_kmers, frequent_words_counts, frequent_words, \
-    find_all_occurencies, find_clumps, faster_frequent_words
+    find_all_occurencies, find_clumps, faster_frequent_words, \
+    pattern_to_number
 
 
 def test_complementary_string():
@@ -78,3 +79,8 @@ def test_find_clumps_big_example():
     clumps = find_clumps(lines[1], k, L, t)
     expected_clumps = set(lines[4].split())
     assert clumps == expected_clumps
+
+
+def test_pattern_to_number():
+    assert pattern_to_number('AGT') == 11
+    assert pattern_to_number('CTTCTCACGTACAACAAAATC') == 2161555804173
