@@ -1,6 +1,6 @@
 from common import get_complementary_string, \
     count_kmers, frequent_words_counts, frequent_words, \
-    find_all_occurencies, find_clumps
+    find_all_occurencies, find_clumps, faster_frequent_words
 
 
 def test_complementary_string():
@@ -43,6 +43,14 @@ def test_frequent_words_big_example():
     with open('../data/tests/frequent_words_data.txt', 'r') as f:
         lines = f.read().splitlines()
     assert frequent_words(lines[1], int(lines[2])) == set(lines[4].split())
+
+
+def test_faster_frequent_words():
+    assert faster_frequent_words('ACTGACTCCCACCCC', 3) == {'CCC'}
+    assert faster_frequent_words('ACGTTGCATGTCGCATGATGCATGAGAGCT', 4) == {'CATG', 'GCAT'}
+    with open('../data/tests/frequent_words_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    assert faster_frequent_words(lines[1], int(lines[2])) == set(lines[4].split())
 
 
 def test_all_occurencies():

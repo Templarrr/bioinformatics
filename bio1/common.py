@@ -52,6 +52,27 @@ def frequent_words(nucleotides_string, kmer_len):
 FrequentWords = frequent_words
 
 
+def faster_frequent_words(nucleotides_string, kmer_len):
+    """ Not exactly implementation from course, but this is much
+    better and don't need any pattern-number conversions.
+    """
+    counter = Counter()
+    nucleotides_string_len = len(nucleotides_string)
+    for i in range(0, nucleotides_string_len - kmer_len + 1):
+        kmer = nucleotides_string[i:i + kmer_len]
+        counter[kmer] += 1
+    frequent_patterns = set()
+    max_count = max(counter.values())
+    for pattern in counter:
+        if counter[pattern] == max_count:
+            frequent_patterns.add(pattern)
+    return frequent_patterns
+
+
+# Course name for method
+FasterFrequentWords = faster_frequent_words
+
+
 def find_all_occurencies(pattern, genome):
     result = []
     start_pos = 0
