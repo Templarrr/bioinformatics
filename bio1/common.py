@@ -126,3 +126,24 @@ def pattern_to_number(pattern):
 
 # Course name for method
 PatternToNumber = pattern_to_number
+
+
+def to_base_x(n, x):
+    s = []
+    while n:
+        s.append(str(n % x))
+        n = n / x
+    return ''.join(s[::-1])
+
+
+def number_to_pattern(number, k):
+    symbols = 'ACGT'
+    number_with_needed_base = to_base_x(number, len(symbols))
+    pattern = ''.join([symbols[int(i)] for i in number_with_needed_base])
+    if len(pattern) < k:
+        pattern = 'A' * (k - len(pattern)) + pattern
+    return pattern
+
+
+# Course name for method
+NumberToPattern = number_to_pattern
