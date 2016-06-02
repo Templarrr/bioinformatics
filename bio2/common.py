@@ -16,3 +16,7 @@ def min_skew(genome):
     skew_list = skew(genome)
     min_skew_value = min(skew_list)
     return [pos for pos, skew_value in enumerate(skew_list) if skew_value == min_skew_value]
+
+
+def hemming_distance(text1, text2):
+    return sum([text1[i] != text2[i] for i in xrange(len(text1))])

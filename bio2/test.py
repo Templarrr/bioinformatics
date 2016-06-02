@@ -1,4 +1,4 @@
-from common import skew, min_skew
+from common import skew, min_skew, hemming_distance
 
 
 def test_skew():
@@ -16,3 +16,13 @@ def test_min_skew_big_example():
         lines = f.read().splitlines()
     min_skew_pos = min_skew(lines[1])
     assert ' '.join(map(str, min_skew_pos)) == lines[3]
+
+
+def test_hemming_distance():
+    assert hemming_distance('GGGCCGTTGGT', 'GGACCGTTGAC') == 3
+
+
+def test_hemming_distance_big_example():
+    with open('../data/tests/HammingDistance.txt', 'r') as f:
+        lines = f.read().splitlines()
+    assert hemming_distance(lines[1], lines[2]) == int(lines[4])
