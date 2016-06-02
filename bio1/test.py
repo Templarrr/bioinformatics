@@ -73,7 +73,7 @@ def test_find_clumps():
 
 
 def test_find_clumps_big_example():
-    with open('clump_finding_data.txt', 'r') as f:
+    with open('../data/tests/clump_finding_data.txt', 'r') as f:
         lines = f.read().splitlines()
     k, L, t = map(int, lines[2].split())
     clumps = find_clumps(lines[1], k, L, t)
