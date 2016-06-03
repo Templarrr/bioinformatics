@@ -1,4 +1,5 @@
-from common import skew, min_skew, hemming_distance
+from common import skew, min_skew, hemming_distance, \
+    approximate_pattern_matching
 
 
 def test_skew():
@@ -26,3 +27,21 @@ def test_hemming_distance_big_example():
     with open('../data/tests/HammingDistance.txt', 'r') as f:
         lines = f.read().splitlines()
     assert hemming_distance(lines[1], lines[2]) == int(lines[4])
+
+
+def test_approximate_pattern_matching():
+    matches = approximate_pattern_matching(
+        'ATTCTGGA',
+        'CGCCCGAATCCAGAACGCATTCCCATATTTCGGGACCACTGGCCTCCACGGTACGGACGTCAATCAAAT',
+        3)
+    assert ' '.join(map(str, matches)) == '6 7 26 27'
+
+
+def test_approximate_pattern_matching_big_example():
+    with open('../data/tests/approximate_match_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    matches = approximate_pattern_matching(
+        lines[1],
+        lines[2],
+        int(lines[3]))
+    assert ' '.join(map(str, matches)) == lines[5]

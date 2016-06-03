@@ -1,6 +1,6 @@
 from time import time
 
-from common import min_skew, hemming_distance
+from common import min_skew, hemming_distance, approximate_pattern_matching
 
 
 def min_skew_challenge():
@@ -16,11 +16,19 @@ def hemming_distance_challenge():
     print hemming_distance(lines[0], lines[1])
 
 
+def approximate_pattern_matching_challenge():
+    with open('../data/challenges/dataset_9_4.txt', 'r') as f:
+        lines = f.read().splitlines()
+    matches = approximate_pattern_matching(lines[0], lines[1], int(lines[2]))
+    print ' '.join(map(str, matches))
+
+
 def run_all():
     print 'Running all challenges with timing'
     time1 = time()
     min_skew_challenge()
     hemming_distance_challenge()
+    approximate_pattern_matching_challenge()
     time2 = time()
     print 'Comlete in %f seconds' % (time2 - time1)
 
