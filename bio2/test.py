@@ -1,5 +1,6 @@
 from common import skew, min_skew, hemming_distance, \
-    approximate_pattern_matching, approximate_pattern_count
+    approximate_pattern_matching, approximate_pattern_count, \
+    frequent_words_with_mismatches
 
 
 def test_skew():
@@ -57,3 +58,20 @@ def test_approximate_pattern_count_big_example():
         lines = f.read().splitlines()
     count = approximate_pattern_count(lines[1], lines[2], int(lines[3]))
     assert count == int(lines[5])
+
+
+def test_frequent_words_with_mismatches():
+    words = frequent_words_with_mismatches('AACAAGCTGATAAACATTTAAAGAG', 5, 1)
+    assert ' '.join(words) == 'AAAAA'
+    words = frequent_words_with_mismatches('ACGTTGCATGTCGCATGATGCATGAGAGCT', 4, 1)
+    assert ' '.join(words) == 'GATG ATGC ATGT'
+
+
+def test_frequent_words_with_mismatches_big_example():
+    with open('../data/tests/frequent_words_mismatch_data_1.txt', 'r') as f:
+        lines = f.read().splitlines()
+    words = frequent_words_with_mismatches(
+        lines[1],
+        int(lines[2].split()[0]),
+        int(lines[2].split()[1]))
+    assert ' '.join(words) == lines[4]
