@@ -1,3 +1,6 @@
+from collections import Counter
+
+
 def skew(genome, max_i=None):
     if max_i is None:
         max_i = len(genome) - 1
@@ -30,4 +33,18 @@ def approximate_pattern_matching(pattern, text, max_hemming_distance):
         kmer = text[i:i + pattern_len]
         if hemming_distance(pattern, kmer) <= max_hemming_distance:
             result.append(i)
+    return result
+
+
+def approximate_pattern_count(pattern, nucleotides_string, max_hemming_distance):
+    counter = Counter()
+    nucleotides_string_len = len(nucleotides_string)
+    kmer_len = len(pattern)
+    for i in range(0, nucleotides_string_len - kmer_len + 1):
+        kmer = nucleotides_string[i:i + kmer_len]
+        counter[kmer] += 1
+    result = 0
+    for kmer in counter:
+        if hemming_distance(pattern, kmer) <= max_hemming_distance:
+            result += counter[kmer]
     return result

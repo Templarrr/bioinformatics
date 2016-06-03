@@ -1,5 +1,5 @@
 from common import skew, min_skew, hemming_distance, \
-    approximate_pattern_matching
+    approximate_pattern_matching, approximate_pattern_count
 
 
 def test_skew():
@@ -45,3 +45,15 @@ def test_approximate_pattern_matching_big_example():
         lines[2],
         int(lines[3]))
     assert ' '.join(map(str, matches)) == lines[5]
+
+
+def test_approximate_pattern_count():
+    assert approximate_pattern_count('AAAAA', 'AACAAGCTGATAAACATTTAAAGAG', 1) == 4
+    assert approximate_pattern_count('GAGG', 'TTTAGAGCCTTCAGAGG', 2) == 4
+
+
+def test_approximate_pattern_count_big_example():
+    with open('../data/tests/ApproximatePatternCount.txt', 'r') as f:
+        lines = f.read().splitlines()
+    count = approximate_pattern_count(lines[1], lines[2], int(lines[3]))
+    assert count == int(lines[5])
