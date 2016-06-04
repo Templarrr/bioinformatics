@@ -1,5 +1,6 @@
 from collections import Counter
 from bio1.common import number_to_pattern
+from bio1.constants import dna_nucleotides
 
 
 def skew(genome, max_i=None):
@@ -68,3 +69,19 @@ def frequent_words_with_mismatches(nucleotides_string, kmer_len, max_hemming_dis
             patterns[pattern] = pattern_appearences_with_mismatches
     max_appearences = max(patterns.values())
     return [pattern for pattern in patterns if patterns[pattern] == max_appearences]
+
+
+def neighbors(pattern, d):
+    if d == 0:
+        return {pattern}
+    if len(pattern) == 1:
+        return dna_nucleotides
+    result = set()
+    suffix_neighbors = neighbors(pattern[1:], d)
+    for suffix_neighbor in suffix_neighbors:
+        if hemming_distance(pattern[1:], suffix_neighbor) < d:
+            for nucleotide in dna_nucleotides:
+                result.add(nucleotide + suffix_neighbor)
+        else:
+            result.add(pattern[0] + suffix_neighbor)
+    return result

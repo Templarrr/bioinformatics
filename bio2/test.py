@@ -1,6 +1,6 @@
 from common import skew, min_skew, hemming_distance, \
     approximate_pattern_matching, approximate_pattern_count, \
-    frequent_words_with_mismatches
+    frequent_words_with_mismatches, neighbors
 
 
 def test_skew():
@@ -67,11 +67,34 @@ def test_frequent_words_with_mismatches():
     assert ' '.join(words) == 'GATG ATGC ATGT'
 
 
-def test_frequent_words_with_mismatches_big_example():
-    with open('../data/tests/frequent_words_mismatch_data_1.txt', 'r') as f:
+# def test_frequent_words_with_mismatches_big_example():
+#     with open('../data/tests/frequent_words_mismatch_data_1.txt', 'r') as f:
+#         lines = f.read().splitlines()
+#     words = frequent_words_with_mismatches(
+#         lines[1],
+#         int(lines[2].split()[0]),
+#         int(lines[2].split()[1]))
+#     assert ' '.join(words) == lines[4]
+
+def test_neighbors():
+    neighbors_list = neighbors('ACG', 1)
+    assert neighbors_list == {
+        'CCG',
+        'TCG',
+        'GCG',
+        'AAG',
+        'ATG',
+        'AGG',
+        'ACA',
+        'ACC',
+        'ACT',
+        'ACG'
+    }
+
+
+def test_neighbors_big_example():
+    with open('../data/tests/Neighbors.txt', 'r') as f:
         lines = f.read().splitlines()
-    words = frequent_words_with_mismatches(
-        lines[1],
-        int(lines[2].split()[0]),
-        int(lines[2].split()[1]))
-    assert ' '.join(words) == lines[4]
+    supposed_result = set(lines[4:])
+    neighbors_list = neighbors(lines[1], int(lines[2]))
+    assert neighbors_list == supposed_result
