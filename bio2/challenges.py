@@ -49,6 +49,16 @@ def frequent_words_with_mismatches_challenge():
     print ' '.join(words)
 
 
+def frequent_words_with_mismatches_challenge2():
+    with open('../data/challenges/dataset_9_8.txt', 'r') as f:
+        lines = f.read().splitlines()
+    words = frequent_words_with_mismatches(
+        lines[0],
+        int(lines[1].split()[0]),
+        int(lines[1].split()[1]), True)
+    print ' '.join(words)
+
+
 def run_all():
     print 'Running all challenges with timing'
     time1 = time()
@@ -57,9 +67,11 @@ def run_all():
     approximate_pattern_matching_challenge()
     approximate_pattern_count_challenge()
     neighbors_challenge()
+    frequent_words_with_mismatches_challenge()
+    frequent_words_with_mismatches_challenge2()
     time2 = time()
     print 'Comlete in %f seconds' % (time2 - time1)
 
 
 if __name__ == '__main__':
-    frequent_words_with_mismatches_challenge()
+    frequent_words_with_mismatches_challenge2()

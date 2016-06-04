@@ -1,4 +1,5 @@
 from collections import Counter
+from bio1.common import get_complementary_string
 from bio1.constants import dna_nucleotides
 
 
@@ -51,7 +52,10 @@ def approximate_pattern_count(pattern, nucleotides_string, max_hemming_distance)
     return result
 
 
-def frequent_words_with_mismatches(nucleotides_string, kmer_len, max_hemming_distance):
+def frequent_words_with_mismatches(nucleotides_string,
+                                   kmer_len,
+                                   max_hemming_distance,
+                                   count_reverse_complement=False):
     counter = Counter()
     nucleotides_string_len = len(nucleotides_string)
     for i in range(0, nucleotides_string_len - kmer_len + 1):
@@ -60,6 +64,9 @@ def frequent_words_with_mismatches(nucleotides_string, kmer_len, max_hemming_dis
     possible_patterns = set()
     for kmer in counter:
         possible_patterns.update(neighbors(kmer, max_hemming_distance))
+        # if count_reverse_complement:
+        #     possible_patterns.update(neighbors(get_complementary_string(kmer, reversed=True),
+        #                                        max_hemming_distance))
     patterns = {}
     for pattern in possible_patterns:
         pattern_appearences_with_mismatches = 0
@@ -68,8 +75,18 @@ def frequent_words_with_mismatches(nucleotides_string, kmer_len, max_hemming_dis
                 pattern_appearences_with_mismatches += counter[kmer]
         if pattern_appearences_with_mismatches:
             patterns[pattern] = pattern_appearences_with_mismatches
-    max_appearences = max(patterns.values())
-    return [pattern for pattern in patterns if patterns[pattern] == max_appearences]
+    if count_reverse_complement:
+        patterns_with_complement = {}
+        for pattern in patterns:
+            patterns_with_complement[pattern] = patterns[pattern]
+            complement = get_complementary_string(pattern, reversed=True)
+            if complement in patterns:
+                patterns_with_complement[pattern] += patterns[complement]
+        max_appearences = max(patterns_with_complement.values())
+        return [pattern for pattern in patterns_with_complement if patterns_with_complement[pattern] == max_appearences]
+    else:
+        max_appearences = max(patterns.values())
+        return [pattern for pattern in patterns if patterns[pattern] == max_appearences]
 
 
 def neighbors(pattern, d):
