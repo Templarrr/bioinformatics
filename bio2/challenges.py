@@ -59,6 +59,22 @@ def frequent_words_with_mismatches_challenge2():
     print ' '.join(words)
 
 
+def salmonella_challenge():
+    with open('../data/examples/Salmonella_enterica.txt', 'r') as f:
+        lines = f.read().splitlines()
+    # combine dna
+    dna = ''.join(lines[1:])
+    # find min skewness
+    min_skew_pos = min_skew(dna)[0]
+    print 'Minimum skew position: %d' % min_skew_pos
+    # get window
+    window_half_size = 500
+    sample = dna[min_skew_pos - window_half_size:min_skew_pos + window_half_size]
+    # find max occurencies
+    words = frequent_words_with_mismatches(sample, 9, 1)
+    print ' '.join(words)
+
+
 def run_all():
     print 'Running all challenges with timing'
     time1 = time()
@@ -69,9 +85,10 @@ def run_all():
     neighbors_challenge()
     frequent_words_with_mismatches_challenge()
     frequent_words_with_mismatches_challenge2()
+    salmonella_challenge()
     time2 = time()
     print 'Comlete in %f seconds' % (time2 - time1)
 
 
 if __name__ == '__main__':
-    frequent_words_with_mismatches_challenge2()
+    salmonella_challenge()
