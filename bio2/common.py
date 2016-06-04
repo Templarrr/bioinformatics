@@ -1,5 +1,4 @@
 from collections import Counter
-from bio1.common import number_to_pattern
 from bio1.constants import dna_nucleotides
 
 
@@ -58,9 +57,11 @@ def frequent_words_with_mismatches(nucleotides_string, kmer_len, max_hemming_dis
     for i in range(0, nucleotides_string_len - kmer_len + 1):
         kmer = nucleotides_string[i:i + kmer_len]
         counter[kmer] += 1
+    possible_patterns = set()
+    for kmer in counter:
+        possible_patterns.update(neighbors(kmer, max_hemming_distance))
     patterns = {}
-    for i in range(4 ** kmer_len):
-        pattern = number_to_pattern(i, kmer_len)
+    for pattern in possible_patterns:
         pattern_appearences_with_mismatches = 0
         for kmer in counter:
             if hemming_distance(kmer, pattern) <= max_hemming_distance:

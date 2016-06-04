@@ -67,14 +67,15 @@ def test_frequent_words_with_mismatches():
     assert ' '.join(words) == 'GATG ATGC ATGT'
 
 
-# def test_frequent_words_with_mismatches_big_example():
-#     with open('../data/tests/frequent_words_mismatch_data_1.txt', 'r') as f:
-#         lines = f.read().splitlines()
-#     words = frequent_words_with_mismatches(
-#         lines[1],
-#         int(lines[2].split()[0]),
-#         int(lines[2].split()[1]))
-#     assert ' '.join(words) == lines[4]
+def test_frequent_words_with_mismatches_big_example():
+    with open('../data/tests/frequent_words_mismatch_data_1.txt', 'r') as f:
+        lines = f.read().splitlines()
+    words = frequent_words_with_mismatches(
+        lines[1],
+        int(lines[2].split()[0]),
+        int(lines[2].split()[1]))
+    assert ' '.join(words) == lines[4]
+
 
 def test_neighbors():
     neighbors_list = neighbors('ACG', 1)

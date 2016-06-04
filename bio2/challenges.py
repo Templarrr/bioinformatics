@@ -1,7 +1,7 @@
 from time import time
 
 from common import min_skew, hemming_distance, approximate_pattern_matching, \
-    approximate_pattern_count, neighbors
+    approximate_pattern_count, neighbors, frequent_words_with_mismatches
 
 
 def min_skew_challenge():
@@ -39,6 +39,16 @@ def neighbors_challenge():
         print neighbor
 
 
+def frequent_words_with_mismatches_challenge():
+    with open('../data/challenges/dataset_9_7.txt', 'r') as f:
+        lines = f.read().splitlines()
+    words = frequent_words_with_mismatches(
+        lines[0],
+        int(lines[1].split()[0]),
+        int(lines[1].split()[1]))
+    print ' '.join(words)
+
+
 def run_all():
     print 'Running all challenges with timing'
     time1 = time()
@@ -52,4 +62,4 @@ def run_all():
 
 
 if __name__ == '__main__':
-    neighbors_challenge()
+    frequent_words_with_mismatches_challenge()
