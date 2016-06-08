@@ -1,5 +1,5 @@
 from common import kmers_in_string, probability_of_kmer, \
-    expected_number_of_kmer
+    expected_number_of_kmer, motif_enumeration
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -23,3 +23,15 @@ def test_probability_of_kmer():
 
 def test_expected_number_of_kmer():
     assert_almost_equal(expected_number_of_kmer(500, 1000, 9), 1.892089)
+
+
+def test_motif_enumeration():
+    assert motif_enumeration(['ATTTGGC', 'TGCCTTA', 'CGGTATC', 'GAAAATT'], 3, 1) == {'ATT', 'TTT', 'GTT', 'ATA'}
+
+
+def test_motif_enumeration_big_example():
+    with open('../data/tests/motif_enumeration_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    assert motif_enumeration(lines[2:8],
+                             int(lines[1].split()[0]),
+                             int(lines[1].split()[1])) == set(lines[9].split())
