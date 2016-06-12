@@ -1,4 +1,4 @@
-from common import motif_enumeration
+from common import motif_enumeration, median_string
 
 
 def motif_enumeration_challenge():
@@ -19,5 +19,11 @@ def subtle_motif_enumeration_challenge():
     print ' '.join(motifs)
 
 
+def median_string_big_challenge():
+    with open('../data/challenges/dataset_158_9.txt', 'r') as f:
+        lines = f.read().splitlines()
+    print median_string(lines[1:], int(lines[0]))
+
+
 if __name__ == '__main__':
-    motif_enumeration_challenge()
+    median_string_big_challenge()

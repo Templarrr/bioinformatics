@@ -1,6 +1,7 @@
 from math import log
 
 from bio1.constants import dna_nucleotides
+from bio1.common import number_to_pattern
 from bio2.common import neighbors, hemming_distance
 
 
@@ -108,3 +109,25 @@ def motif_alternate_score(motifs):
     consensus = motif_consensus(motifs)
     distances = [hemming_distance(consensus, motif) for motif in motifs]
     return sum(distances)
+
+
+def d_text(pattern, text):
+    # I reaaaally tired thinking about more suitable names now...
+    kmers = get_all_kmers_in_string(text, len(pattern))
+    return min([hemming_distance(pattern, kmer) for kmer in kmers])
+
+
+def d_dna(pattern, dna):
+    return sum(d_text(pattern, text) for text in dna)
+
+
+def median_string(dna, k):
+    max_distance = k * len(dna) + 1
+    median = ''
+    for i in range(4 ** k):
+        pattern = number_to_pattern(i, k)
+        distance = d_dna(pattern, dna)
+        if distance < max_distance:
+            max_distance = distance
+            median = pattern
+    return median
