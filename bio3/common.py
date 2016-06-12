@@ -1,7 +1,7 @@
 from math import log
 
 from bio1.constants import dna_nucleotides
-from bio2.common import neighbors
+from bio2.common import neighbors, hemming_distance
 
 
 def kmers_in_string(string_len, kmer_len):
@@ -102,3 +102,9 @@ def motif_set_entropy_score(motifs):
     for profile_column in profile:
         result += motif_column_entropy(profile_column)
     return result
+
+
+def motif_alternate_score(motifs):
+    consensus = motif_consensus(motifs)
+    distances = [hemming_distance(consensus, motif) for motif in motifs]
+    return sum(distances)

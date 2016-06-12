@@ -1,6 +1,7 @@
 from common import kmers_in_string, probability_of_kmer, \
     expected_number_of_kmer, motif_enumeration, motif_set_score, \
-    motif_consensus, motif_column_entropy, motif_set_entropy_score
+    motif_consensus, motif_column_entropy, motif_set_entropy_score, \
+    motif_alternate_score
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -69,3 +70,7 @@ def test_motif_column_entropy():
 
 def test_motif_set_entropy_score():
     assert_almost_equal(motif_set_entropy_score(motifs_example), 9.91629)
+
+
+def test_motif_alternate_score():
+    assert motif_alternate_score(motifs_example) == motif_set_score(motifs_example)
