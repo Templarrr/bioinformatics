@@ -1,3 +1,5 @@
+from math import log
+
 from bio1.constants import dna_nucleotides
 from bio2.common import neighbors
 
@@ -82,4 +84,21 @@ def motif_set_score(motifs):
     result = 0
     for count_column in counts:
         result += sum(count_column.values()) - max(count_column.values())
+    return result
+
+
+def motif_column_entropy(profile_column):
+    result = 0
+    for nucleotide in profile_column:
+        if profile_column[nucleotide] == 0:
+            continue
+        result += profile_column[nucleotide] * log(profile_column[nucleotide], 2)
+    return -1 * result
+
+
+def motif_set_entropy_score(motifs):
+    profile = motif_profile(motifs)
+    result = 0
+    for profile_column in profile:
+        result += motif_column_entropy(profile_column)
     return result
