@@ -27,6 +27,15 @@ def get_all_kmers_in_string(string, kmer_len):
     return string_kmers
 
 
+def get_all_kmers_in_string_as_ordered_list(string, kmer_len):
+    string_kmers = []
+    string_len = len(string)
+    for i in range(0, string_len - kmer_len + 1):
+        kmer = string[i:i + kmer_len]
+        string_kmers.append(kmer)
+    return string_kmers
+
+
 def motif_enumeration(dna, kmer_len, max_hemming_distance):
     dna_kmers = [get_all_kmers_in_string(string, kmer_len) for string in dna]
 
@@ -137,4 +146,28 @@ def pr(string, profile):
     result = 1
     for i in range(len(string)):
         result *= profile[i][string[i]]
+    return result
+
+
+def profile_most_probable_kmer(string, k, profile):
+    kmers = get_all_kmers_in_string_as_ordered_list(string, k)
+    max_prob = -1
+    max_kmer = ''
+    for kmer in kmers:
+        prob = pr(kmer, profile)
+        if prob > max_prob:
+            max_prob = prob
+            max_kmer = kmer
+    return max_kmer
+
+
+def get_profile_from_text_presentation(lines):
+    result = []
+    for i in range(len(lines[0].split())):
+        result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
+    nucleotides = ['A', 'C', 'G', 'T']
+    for i in range(4):
+        prs = map(float, lines[i].split())
+        for j in range(len(prs)):
+            result[j][nucleotides[i]] = prs[j]
     return result

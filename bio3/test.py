@@ -1,7 +1,9 @@
+from bio3.common import get_profile_from_text_presentation
 from common import kmers_in_string, probability_of_kmer, \
     expected_number_of_kmer, motif_enumeration, motif_set_score, \
     motif_consensus, motif_column_entropy, motif_set_entropy_score, \
-    motif_alternate_score, median_string, motif_profile, pr
+    motif_alternate_score, median_string, motif_profile, pr, \
+    profile_most_probable_kmer
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -97,3 +99,20 @@ def test_pr():
     profile = motif_profile(motifs_example)
     assert_almost_equal(pr('ACGGGGATTACC', profile), 0.0008)
     assert_almost_equal(pr('TCGGGGATTTCC', profile), 0.0205)
+
+
+def test_profile_most_probable_kmer():
+    profile = get_profile_from_text_presentation([
+        '0.2 0.2 0.3 0.2 0.3',
+        '0.4 0.3 0.1 0.5 0.1',
+        '0.3 0.3 0.5 0.2 0.4',
+        '0.1 0.2 0.1 0.1 0.2',
+    ])
+    assert profile_most_probable_kmer('ACCTGTTTATTGCCTAAGTTCCGAACAAACCCAATATAGCCCGAGGGCCT', 5, profile) == 'CCGAG'
+
+
+def test_profile_most_probable_kmer_big_example():
+    with open('../data/tests/profile_most_1.txt', 'r') as f:
+        lines = f.read().splitlines()
+    profile = get_profile_from_text_presentation(lines[3:7])
+    assert profile_most_probable_kmer(lines[1], int(lines[2]), profile) == lines[8]

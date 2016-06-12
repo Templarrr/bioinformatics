@@ -1,4 +1,4 @@
-from common import motif_enumeration, median_string
+from common import motif_enumeration, median_string, get_profile_from_text_presentation, profile_most_probable_kmer
 
 
 def motif_enumeration_challenge():
@@ -25,5 +25,12 @@ def median_string_big_challenge():
     print median_string(lines[1:], int(lines[0]))
 
 
+def profile_most_probable_kmer_challenge():
+    with open('../data/challenges/dataset_159_3.txt', 'r') as f:
+        lines = f.read().splitlines()
+    profile = get_profile_from_text_presentation(lines[2:])
+    print profile_most_probable_kmer(lines[0], int(lines[1]), profile)
+
+
 if __name__ == '__main__':
-    median_string_big_challenge()
+    profile_most_probable_kmer_challenge()
