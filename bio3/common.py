@@ -131,3 +131,10 @@ def median_string(dna, k):
             max_distance = distance
             median = pattern
     return median
+
+
+def pr(string, profile):
+    result = 1
+    for i in range(len(string)):
+        result *= profile[i][string[i]]
+    return result

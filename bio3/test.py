@@ -1,7 +1,7 @@
 from common import kmers_in_string, probability_of_kmer, \
     expected_number_of_kmer, motif_enumeration, motif_set_score, \
     motif_consensus, motif_column_entropy, motif_set_entropy_score, \
-    motif_alternate_score, median_string
+    motif_alternate_score, median_string, motif_profile, pr
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -91,3 +91,9 @@ def test_median_string_big_example():
     with open('../data/tests/medium_string_data.txt', 'r') as f:
         lines = f.read().splitlines()
     assert median_string(lines[2:12], int(lines[1])) == lines[13]
+
+
+def test_pr():
+    profile = motif_profile(motifs_example)
+    assert_almost_equal(pr('ACGGGGATTACC', profile), 0.0008)
+    assert_almost_equal(pr('TCGGGGATTTCC', profile), 0.0205)
