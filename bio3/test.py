@@ -1,5 +1,6 @@
 from common import kmers_in_string, probability_of_kmer, \
-    expected_number_of_kmer, motif_enumeration
+    expected_number_of_kmer, motif_enumeration, motif_set_score, \
+    motif_consensus
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -35,3 +36,25 @@ def test_motif_enumeration_big_example():
     assert motif_enumeration(lines[2:8],
                              int(lines[1].split()[0]),
                              int(lines[1].split()[1])) == set(lines[9].split())
+
+
+motifs_example = [
+    'TCGGGGGTTTTT',
+    'CCGGTGACTTAC',
+    'ACGGGGATTTTC',
+    'TTGGGGACTTTT',
+    'AAGGGGACTTCC',
+    'TTGGGGACTTCC',
+    'TCGGGGATTCAT',
+    'TCGGGGATTCCT',
+    'TAGGGGAACTAC',
+    'TCGGGTATAACC'
+]
+
+
+def test_motif_set_score():
+    assert motif_set_score(motifs_example) == 30
+
+
+def test_motif_consensus():
+    assert motif_consensus(motifs_example) == 'TCGGGGATTTCC'

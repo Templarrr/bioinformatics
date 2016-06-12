@@ -43,3 +43,43 @@ def motif_enumeration(dna, kmer_len, max_hemming_distance):
             patterns.add(kmer)
 
     return patterns
+
+
+def motif_counts(motifs):
+    result = []
+    for i in range(len(motifs[0])):
+        result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
+    for motif in motifs:
+        for index, char in enumerate(motif):
+            result[index][char] += 1
+    return result
+
+
+def motif_profile(motifs):
+    result = []
+    for i in range(len(motifs[0])):
+        result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
+    for motif in motifs:
+        for index, char in enumerate(motif):
+            result[index][char] += 1.0 / len(motifs)
+    return result
+
+
+def motif_consensus(motifs):
+    counts = motif_counts(motifs)
+    result = ''
+    for count_column in counts:
+        max_value = max(count_column.values())
+        for char in count_column:
+            if count_column[char] == max_value:
+                result += char
+                break
+    return result
+
+
+def motif_set_score(motifs):
+    counts = motif_counts(motifs)
+    result = 0
+    for count_column in counts:
+        result += sum(count_column.values()) - max(count_column.values())
+    return result
