@@ -43,5 +43,15 @@ def greedy_motif_search_challenge():
         print motif
 
 
+def greedy_motif_search_laplace_challenge():
+    with open('../data/challenges/dataset_160_9.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[0].split()[0]), int(lines[0].split()[1])
+    dna = lines[1:]
+    motifs = greedy_motif_search(dna, k, laplace_rule=True)
+    for motif in motifs:
+        print motif
+
+
 if __name__ == '__main__':
-    greedy_motif_search_challenge()
+    greedy_motif_search_laplace_challenge()

@@ -57,23 +57,37 @@ def motif_enumeration(dna, kmer_len, max_hemming_distance):
     return patterns
 
 
-def motif_counts(motifs):
+def motif_counts(motifs, laplace_rule=False):
     result = []
     for i in range(len(motifs[0])):
-        result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
+        if laplace_rule:
+            result.append({'A': 1, 'C': 1, 'G': 1, 'T': 1})
+        else:
+            result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
     for motif in motifs:
         for index, char in enumerate(motif):
             result[index][char] += 1
     return result
 
 
-def motif_profile(motifs):
+def motif_profile(motifs, laplace_rule=False):
     result = []
     for i in range(len(motifs[0])):
-        result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
+        if laplace_rule:
+            result.append({
+                'A': 1.0/(4+len(motifs)),
+                'C': 1.0/(4+len(motifs)),
+                'G': 1.0/(4+len(motifs)),
+                'T': 1.0/(4+len(motifs))
+            })
+        else:
+            result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
     for motif in motifs:
         for index, char in enumerate(motif):
-            result[index][char] += 1.0 / len(motifs)
+            if laplace_rule:
+                result[index][char] += 1.0 / (4 + len(motifs))
+            else:
+                result[index][char] += 1.0 / len(motifs)
     return result
 
 
@@ -173,14 +187,14 @@ def get_profile_from_text_presentation(lines):
     return result
 
 
-def greedy_motif_search(dna, k):
+def greedy_motif_search(dna, k, laplace_rule=False):
     best_motif = None
     best_motif_score = len(dna) * len(dna[0])
     start_kmers = get_all_kmers_in_string(dna[0], k)
     for kmer0 in start_kmers:
         motifs = [kmer0]
         for i in range(1, len(dna)):
-            profile = motif_profile(motifs)
+            profile = motif_profile(motifs, laplace_rule)
             motifs.append(profile_most_probable_kmer(dna[i], k, profile))
         motif_score = motif_set_score(motifs)
         if motif_score < best_motif_score:

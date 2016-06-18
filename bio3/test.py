@@ -128,11 +128,9 @@ def test_greedy_motif_search():
     ]
     k = 3
     greedy_best_motif = greedy_motif_search(dna, k)
-    assert greedy_best_motif[0] == 'CAG'
-    assert greedy_best_motif[1] == 'CAG'
-    assert greedy_best_motif[2] == 'CAA'
-    assert greedy_best_motif[3] == 'CAA'
-    assert greedy_best_motif[4] == 'CAA'
+    assert greedy_best_motif == ['CAG', 'CAG', 'CAA', 'CAA', 'CAA']
+    greedy_best_motif_laplace = greedy_motif_search(dna, k, laplace_rule=True)
+    assert greedy_best_motif_laplace == ['TTC', 'ATC', 'TTC', 'ATC', 'TTC']
 
 
 def test_greedy_motif_search_big_example():
@@ -142,3 +140,12 @@ def test_greedy_motif_search_big_example():
     dna = lines[2:2 + t]
     expected_motif = lines[3 + t:]
     assert greedy_motif_search(dna, k) == expected_motif
+
+
+def test_greedy_motif_search_laplace_big_example():
+    with open('../data/tests/greedy_pseudo.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[1].split()[0]), int(lines[1].split()[1])
+    dna = lines[2:2 + t]
+    expected_motif = lines[3 + t:]
+    assert greedy_motif_search(dna, k, laplace_rule=True) == expected_motif
