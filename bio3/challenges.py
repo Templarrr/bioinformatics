@@ -1,4 +1,5 @@
-from common import motif_enumeration, median_string, get_profile_from_text_presentation, profile_most_probable_kmer
+from common import motif_enumeration, median_string, get_profile_from_text_presentation, \
+    profile_most_probable_kmer, greedy_motif_search
 
 
 def motif_enumeration_challenge():
@@ -32,5 +33,15 @@ def profile_most_probable_kmer_challenge():
     print profile_most_probable_kmer(lines[0], int(lines[1]), profile)
 
 
+def greedy_motif_search_challenge():
+    with open('../data/challenges/dataset_159_5.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[0].split()[0]), int(lines[0].split()[1])
+    dna = lines[1:]
+    motifs = greedy_motif_search(dna, k)
+    for motif in motifs:
+        print motif
+
+
 if __name__ == '__main__':
-    profile_most_probable_kmer_challenge()
+    greedy_motif_search_challenge()

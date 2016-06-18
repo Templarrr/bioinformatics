@@ -171,3 +171,19 @@ def get_profile_from_text_presentation(lines):
         for j in range(len(prs)):
             result[j][nucleotides[i]] = prs[j]
     return result
+
+
+def greedy_motif_search(dna, k):
+    best_motif = None
+    best_motif_score = len(dna) * len(dna[0])
+    start_kmers = get_all_kmers_in_string(dna[0], k)
+    for kmer0 in start_kmers:
+        motifs = [kmer0]
+        for i in range(1, len(dna)):
+            profile = motif_profile(motifs)
+            motifs.append(profile_most_probable_kmer(dna[i], k, profile))
+        motif_score = motif_set_score(motifs)
+        if motif_score < best_motif_score:
+            best_motif = motifs
+            best_motif_score = motif_score
+    return best_motif

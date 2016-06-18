@@ -3,7 +3,7 @@ from common import kmers_in_string, probability_of_kmer, \
     expected_number_of_kmer, motif_enumeration, motif_set_score, \
     motif_consensus, motif_column_entropy, motif_set_entropy_score, \
     motif_alternate_score, median_string, motif_profile, pr, \
-    profile_most_probable_kmer
+    profile_most_probable_kmer, greedy_motif_search
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -116,3 +116,29 @@ def test_profile_most_probable_kmer_big_example():
         lines = f.read().splitlines()
     profile = get_profile_from_text_presentation(lines[3:7])
     assert profile_most_probable_kmer(lines[1], int(lines[2]), profile) == lines[8]
+
+
+def test_greedy_motif_search():
+    dna = [
+        'GGCGTTCAGGCA',
+        'AAGAATCAGTCA',
+        'CAAGGAGTTCGC',
+        'CACGTCAATCAC',
+        'CAATAATATTCG'
+    ]
+    k = 3
+    greedy_best_motif = greedy_motif_search(dna, k)
+    assert greedy_best_motif[0] == 'CAG'
+    assert greedy_best_motif[1] == 'CAG'
+    assert greedy_best_motif[2] == 'CAA'
+    assert greedy_best_motif[3] == 'CAA'
+    assert greedy_best_motif[4] == 'CAA'
+
+
+def test_greedy_motif_search_big_example():
+    with open('../data/tests/greedy_data.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[1].split()[0]), int(lines[1].split()[1])
+    dna = lines[2:2 + t]
+    expected_motif = lines[3 + t:]
+    assert greedy_motif_search(dna, k) == expected_motif
