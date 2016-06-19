@@ -1,5 +1,5 @@
 from common import motif_enumeration, median_string, get_profile_from_text_presentation, \
-    profile_most_probable_kmer, greedy_motif_search, randomized_motif_search
+    profile_most_probable_kmer, greedy_motif_search, randomized_motif_search, gibbs_sampler
 
 
 def motif_enumeration_challenge():
@@ -63,5 +63,15 @@ def randomized_motif_search_challenge():
         print motif
 
 
+def gibbs_sampler_challenge():
+    with open('../data/challenges/dataset_163_4.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t, N = int(lines[0].split()[0]), int(lines[0].split()[1]), int(lines[0].split()[2])
+    dna = lines[1:]
+    motifs = gibbs_sampler(dna, k, N, repeats=60)
+    for motif in motifs:
+        print motif
+
+
 if __name__ == '__main__':
-    randomized_motif_search_challenge()
+    gibbs_sampler_challenge()

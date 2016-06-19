@@ -1,7 +1,7 @@
 from math import log
 
-from bio1.constants import dna_nucleotides
 from bio1.common import number_to_pattern
+from bio1.constants import dna_nucleotides
 from bio2.common import neighbors, hemming_distance
 
 
@@ -243,5 +243,54 @@ def probability_of_capturing_at_least_two_kmer(dna_str_len, dna_len, k):
     probability_of_not_capturing_kmer_in_str = 1 - probability_of_capturing_kmer_in_str
     probability_of_capturing_0_kmer_in_dna = probability_of_not_capturing_kmer_in_str ** dna_len
     probability_of_capturing_1_kmer_in_dna = dna_len * probability_of_not_capturing_kmer_in_str ** (
-    dna_len - 1) * probability_of_capturing_kmer_in_str
+        dna_len - 1) * probability_of_capturing_kmer_in_str
     return 1 - probability_of_capturing_0_kmer_in_dna - probability_of_capturing_1_kmer_in_dna
+
+
+import bisect
+
+
+def cdf(weights):
+    total = sum(weights)
+    result = []
+    cumsum = 0.0
+    for w in weights:
+        cumsum += w
+        result.append(cumsum / total)
+    return result
+
+
+def choice(population, weights):
+    assert len(population) == len(weights)
+    cdf_vals = cdf(weights)
+    x = random.random()
+    idx = bisect.bisect(cdf_vals, x)
+    return population[idx]
+
+
+def profile_randomly_generated_kmer(string, k, profile):
+    kmers = get_all_kmers_in_string_as_ordered_list(string, k)
+    weights = [pr(kmer, profile) for kmer in kmers]
+    return choice(kmers, weights)
+
+
+def gibbs_sampler(dna, k, N, repeats=20):
+    best_motif = None
+    best_motif_score = len(dna) * len(dna[0])
+    for __ in range(repeats):
+        motifs = [pick_random_kmer(string, k) for string in dna]
+        best_motifs = motifs[:]
+        best_motifs_score = motif_set_score(best_motifs)
+        for _ in range(N):
+            i = random.randint(0, len(dna) - 1)
+            modified_motifs = [motif for j, motif in enumerate(best_motifs) if j != i]
+            profile = motif_profile(modified_motifs, laplace_rule=True)
+            motifs[i] = profile_randomly_generated_kmer(dna[i], k, profile)
+            motifs_score = motif_set_score(motifs)
+            if motifs_score < best_motifs_score:
+                best_motifs = motifs[:]
+                best_motifs_score = motifs_score
+        if best_motifs_score < best_motif_score:
+            best_motif = best_motifs
+            best_motif_score = best_motifs_score
+    return best_motif
