@@ -3,7 +3,7 @@ from common import kmers_in_string, probability_of_kmer, \
     expected_number_of_kmer, motif_enumeration, motif_set_score, \
     motif_consensus, motif_column_entropy, motif_set_entropy_score, \
     motif_alternate_score, median_string, motif_profile, pr, \
-    profile_most_probable_kmer, greedy_motif_search
+    profile_most_probable_kmer, greedy_motif_search, randomized_motif_search
 
 
 def assert_almost_equal(val1, val2, precision=0.0001):
@@ -149,3 +149,30 @@ def test_greedy_motif_search_laplace_big_example():
     dna = lines[2:2 + t]
     expected_motif = lines[3 + t:]
     assert greedy_motif_search(dna, k, laplace_rule=True) == expected_motif
+
+
+def test_randomized_motif_search():
+    dna = [
+        'CGCCCCTCTCGGGGGTGTTCAGTAAACGGCCA',
+        'GGGCGAGGTATGTGTAAGTGCCAAGGTGCCAG',
+        'TAGTACCGAGACCGAAAGAAGTATACAGGCGT',
+        'TAGATCAAGTTTCAGGTGCACGTCGGTGAACC',
+        'AATCCACCAGCTCCACGTGCAATGTTGGCCTA',
+    ]
+    motifs = randomized_motif_search(dna, 8)
+    assert motifs == [
+        'TCTCGGGG',
+        'CCAAGGTG',
+        'TACAGGCG',
+        'TTCAGGTG',
+        'TCCACGTG'
+    ]
+
+
+def test_randomized_motif_search_big_example():
+    with open('../data/tests/randomized.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[1].split()[0]), int(lines[1].split()[1])
+    dna = lines[2:2 + t]
+    expected_motif = lines[3 + t:]
+    assert randomized_motif_search(dna, k) == expected_motif

@@ -75,10 +75,10 @@ def motif_profile(motifs, laplace_rule=False):
     for i in range(len(motifs[0])):
         if laplace_rule:
             result.append({
-                'A': 1.0/(4+len(motifs)),
-                'C': 1.0/(4+len(motifs)),
-                'G': 1.0/(4+len(motifs)),
-                'T': 1.0/(4+len(motifs))
+                'A': 1.0 / (4 + len(motifs)),
+                'C': 1.0 / (4 + len(motifs)),
+                'G': 1.0 / (4 + len(motifs)),
+                'T': 1.0 / (4 + len(motifs))
             })
         else:
             result.append({'A': 0, 'C': 0, 'G': 0, 'T': 0})
@@ -200,4 +200,33 @@ def greedy_motif_search(dna, k, laplace_rule=False):
         if motif_score < best_motif_score:
             best_motif = motifs
             best_motif_score = motif_score
+    return best_motif
+
+
+import random
+
+
+def pick_random_kmer(string, k):
+    start_pos = random.randint(0, len(string) - k)
+    return string[start_pos:start_pos + k]
+
+
+def randomized_motif_search(dna, k, repeats=1000):
+    best_motif = None
+    best_motif_score = len(dna) * len(dna[0])
+    for i in range(repeats):
+        best_motif_i = [pick_random_kmer(string, k) for string in dna]
+        best_motif_score_i = motif_set_score(best_motif_i)
+        while True:
+            profile = motif_profile(best_motif_i, laplace_rule=True)
+            new_motif = [profile_most_probable_kmer(string, k, profile) for string in dna]
+            new_motif_score = motif_set_score(new_motif)
+            if new_motif_score < best_motif_score_i:
+                best_motif_i = new_motif
+                best_motif_score_i = new_motif_score
+            else:
+                break
+        if best_motif_score_i < best_motif_score:
+            best_motif = best_motif_i
+            best_motif_score = best_motif_score_i
     return best_motif

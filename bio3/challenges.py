@@ -1,5 +1,5 @@
 from common import motif_enumeration, median_string, get_profile_from_text_presentation, \
-    profile_most_probable_kmer, greedy_motif_search
+    profile_most_probable_kmer, greedy_motif_search, randomized_motif_search
 
 
 def motif_enumeration_challenge():
@@ -53,5 +53,15 @@ def greedy_motif_search_laplace_challenge():
         print motif
 
 
+def randomized_motif_search_challenge():
+    with open('../data/challenges/dataset_161_5.txt', 'r') as f:
+        lines = f.read().splitlines()
+    k, t = int(lines[0].split()[0]), int(lines[0].split()[1])
+    dna = lines[1:]
+    motifs = randomized_motif_search(dna, k)
+    for motif in motifs:
+        print motif
+
+
 if __name__ == '__main__':
-    greedy_motif_search_laplace_challenge()
+    randomized_motif_search_challenge()
