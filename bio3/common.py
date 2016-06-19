@@ -230,3 +230,18 @@ def randomized_motif_search(dna, k, repeats=1000):
             best_motif = best_motif_i
             best_motif_score = best_motif_score_i
     return best_motif
+
+
+def probability_of_capturing_at_least_one_kmer(dna_str_len, dna_len, k):
+    probability_of_not_capturing_kmer_in_str = 1 - 1.0 / (dna_str_len - k + 1)
+    probability_of_not_capturing_kmer_in_dna = probability_of_not_capturing_kmer_in_str ** dna_len
+    return 1 - probability_of_not_capturing_kmer_in_dna
+
+
+def probability_of_capturing_at_least_two_kmer(dna_str_len, dna_len, k):
+    probability_of_capturing_kmer_in_str = 1.0 / (dna_str_len - k + 1)
+    probability_of_not_capturing_kmer_in_str = 1 - probability_of_capturing_kmer_in_str
+    probability_of_capturing_0_kmer_in_dna = probability_of_not_capturing_kmer_in_str ** dna_len
+    probability_of_capturing_1_kmer_in_dna = dna_len * probability_of_not_capturing_kmer_in_str ** (
+    dna_len - 1) * probability_of_capturing_kmer_in_str
+    return 1 - probability_of_capturing_0_kmer_in_dna - probability_of_capturing_1_kmer_in_dna
